@@ -9,7 +9,7 @@ class Metadatum < ActiveRecord::Base
     objid
   end
 
-  #validates_format_of :objid, :without => /^\d/
+  #validates_format_of :objid, :with => /\A[a-z].+\z/
   def self.find(input)
     input.to_i == 0 ? find_by_objid(input) : super
   end
