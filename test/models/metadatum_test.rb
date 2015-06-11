@@ -14,4 +14,9 @@ class MetadatumTest < ActiveSupport::TestCase
     assert_not @md.valid?
   end
 
+  test "title should be set before save" do
+    @md.mets = '<mods xmlns="http://www.loc.gov/mods/v3"><titleInfo><title>Manuscript journal</title></titleInfo></mods>'
+    assert_equal(@md.send(:set_title), 'Manuscript journal')
+  end
+
 end
