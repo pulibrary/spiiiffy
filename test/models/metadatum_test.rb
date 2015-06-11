@@ -19,4 +19,9 @@ class MetadatumTest < ActiveSupport::TestCase
     assert_equal(@md.send(:set_title), 'Manuscript journal')
   end
 
+  test "objid should be set before save" do
+    @md.mets = '<mets:mets xmlns:mets="http://www.loc.gov/METS/" OBJID="nz8060449"><mods xmlns="http://www.loc.gov/mods/v3"><titleInfo><title>Manuscript journal</title></titleInfo></mods></mets:mets>'
+    assert_equal(@md.send(:set_objid), 'nz8060449')
+  end
+
 end

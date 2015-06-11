@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150611010826) do
+ActiveRecord::Schema.define(version: 20150611132915) do
 
   create_table "metadata", force: :cascade do |t|
     t.text     "mets",       limit: 4294967295
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20150611010826) do
     t.datetime "created_at",                    null: false
     t.datetime "updated_at",                    null: false
     t.string   "title",      limit: 255
+    t.string   "objid",      limit: 255
   end
 
 end
