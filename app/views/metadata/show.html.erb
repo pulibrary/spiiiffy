@@ -2,7 +2,7 @@
 
 <p>
   <strong>Mets:</strong>
-  <%= @metadatum.mets %>
+  <%= @metadatum.mets[0..30].gsub(/\s\w+\s*$/,'...') %>
 </p>
 
 <p>
