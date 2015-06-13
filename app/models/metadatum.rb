@@ -18,16 +18,16 @@ class Metadatum < ActiveRecord::Base
 
   private
     def set_title
-      xml_doc  = Nokogiri::XML(self.mets)
-      self.title = xml_doc.xpath('(//mods:titleInfo/mods:title/text())[1]', 'mods' => 'http://www.loc.gov/mods/v3')
+      mets_doc  = Nokogiri::XML(self.mets)
+      self.title = mets_doc.xpath('(//mods:titleInfo/mods:title/text())[1]', 'mods' => 'http://www.loc.gov/mods/v3')
       self.title.blank? ? "untitled" : self.title
-      # xml_doc.xpath('(/mets:mets/@OBJID', 'mets' => 'http://www.loc.gov/METS/')
+      # @mets_doc.xpath('(/mets:mets/@OBJID', 'mets' => 'http://www.loc.gov/METS/')
     end
 
   private
     def set_objid
-      xml_doc  = Nokogiri::XML(self.mets)
-      self.objid = xml_doc.xpath('string(//mets:mets/@OBJID)', 'mets' => 'http://www.loc.gov/METS/')
+      mets_doc  = Nokogiri::XML(self.mets)
+      self.objid = mets_doc.xpath('string(//mets:mets/@OBJID)', 'mets' => 'http://www.loc.gov/METS/')
     end
 
   private
@@ -40,10 +40,10 @@ class Metadatum < ActiveRecord::Base
       # Any options you add are added to the object
       m = IIIF::Presentation::Manifest.new(seed)
 
-      xml_doc  = Nokogiri::XML(self.mets)
+      mets_doc  = Nokogiri::XML(self.mets)
 
       #get fileSec
-      files = xml_doc.xpath('//mets:fileSec/mets:fileGrp[@USE="deliverables"]/mets:file', 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink')
+      files = mets_doc.xpath('//mets:fileSec/mets:fileGrp[@USE="deliverables"]/mets:file', 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink')
 
       files_hash = Hash.new
 
@@ -51,16 +51,13 @@ class Metadatum < ActiveRecord::Base
         fid = file.xpath('string(@ID)', 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink')
         fadmid = file.xpath('string(@ADMID)', 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink')
         files_hash[fid] = fadmid
-
-        #flink = file.xpath('string(//mets:FLocat/@xlink:href)', 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink')
-        #files_hash[fid] = flink
       end
 
       #get structMap ... start with ordered list
-      ol = xml_doc.xpath('//mets:structMap/mets:div/mets:div[@TYPE="OrderedList"]/mets:div', 'mets' => 'http://www.loc.gov/METS/')
+      ol = mets_doc.xpath('//mets:structMap/mets:div/mets:div[@TYPE="OrderedList"]/mets:div', 'mets' => 'http://www.loc.gov/METS/')
 
       # I am having namespacing issues, so removing them for now... fix this later
-      slop = xml_doc.clone
+      slop = mets_doc.clone
       slop.remove_namespaces!
 
       ol.each do |item|
@@ -81,10 +78,6 @@ class Metadatum < ActiveRecord::Base
         canvas = IIIF::Presentation::Canvas.new()
 
         canvas['@id'] = "#{m['@id']}/canvas/#{order}"
-
-        # ...but there are also accessors and mutators for the properties mentioned in
-        # the spec
-        # test for positive integer for width and height
 
         canvas.width = img_width.to_i
         canvas.height = img_height.to_i
