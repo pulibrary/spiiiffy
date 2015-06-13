@@ -69,11 +69,12 @@ class Metadatum < ActiveRecord::Base
 
         iw = '//techMD[@ID="' + item_aid + '"]//imageWidth/text()'
         ih = '//techMD[@ID="' + item_aid + '"]//imageHeight/text()'
+        i_urn = '//mets:file[@ADMID="' + item_aid +'"]/mets:FLocat/@xlink:href'
 
-        #//techMD[@ID="yy12"]//imageWidth/text()
         img_width = slop.xpath(iw, 'mets' => 'http://www.loc.gov/METS/').to_s
-        #img_width = slop.xpath('//techMD[@ID="wopp"]//imageWidth/text()', 'mets' => 'http://www.loc.gov/METS/').to_s
+        
         img_height = slop.xpath(ih, 'mets' => 'http://www.loc.gov/METS/').to_s
+        img_id = mets_doc.xpath(i_urn, 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink').to_s.sub(/^urn:pudl:images:deliverable:/,'')
 
         canvas = IIIF::Presentation::Canvas.new()
 
@@ -83,11 +84,19 @@ class Metadatum < ActiveRecord::Base
         canvas.height = img_height.to_i
         canvas.label = label
 
-        #images = IIIF::Presentation::Resource.new('@type' => 'oa:Annotation')
-        #canvas.images << images
+        i = IIIF::Presentation::ImageResource.new()
+
+        i['@id'] = "http://libimages.princeton.edu/loris2/#{img_id}/full/#{img_width},#{img_height}/0/default.jpg"
+        i.format = "image/jpeg"
+        i.width = canvas.width
+        i.height = canvas.height
+
+        r = IIIF::Presentation::Resource.new('@type' => 'oa:Annotation', 'motivation' => 'sc:painting', '@id' => '#{canvas["@id"]}/images', 'resource' => i)
+
+        canvas.images << r
 
         m.sequences << canvas
-        self.manifest = m.to_json(pretty: false)
+        self.manifest = m.to_json(pretty:false)
       end
 
     end
