@@ -1,3 +1,4 @@
+require 'iiif/presentation'
 class MetadataController < ApplicationController
   before_action :set_metadatum, only: [:show, :edit, :update, :destroy]
 
@@ -10,9 +11,14 @@ class MetadataController < ApplicationController
   # GET /metadata/1
   # GET /metadata/1.json
   def show
+
     respond_to do |format|
       format.html { render :show }
-      format.json { render :json => @metadatum.to_json( :only => [:manifest] ) }
+      format.json {
+        m = IIIF::Service.parse(@metadatum.manifest)
+        render :json => m.to_json(pretty: true)
+      }
+      
     end
   end
 

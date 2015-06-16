@@ -8,8 +8,9 @@
 </p>
 
 <p>
-  <strong>Manifest:</strong>
-  <%= @metadatum.manifest.to_json(pretty: true) %>
+
+  <%= link_to "Manifest", {:format => :json } %>
+  
 </p>
 
 <%= link_to 'Edit', edit_metadatum_path(@metadatum) %> |
