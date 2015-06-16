@@ -15,10 +15,12 @@ class MetadataController < ApplicationController
     respond_to do |format|
       format.html { render :show }
       format.json {
-        m = IIIF::Service.parse(@metadatum.manifest)
-        render :json => m.to_json(pretty: true)
+        #m = IIIF::Service.parse(@metadatum.manifest)
+
+        render :json => @metadatum.manifest
+        #render :json => m.to_json(pretty: true)
       }
-      
+
     end
   end
 
