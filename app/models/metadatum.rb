@@ -84,12 +84,15 @@ class Metadatum < ActiveRecord::Base
         canvas.height = img_height.to_i
         canvas.label = label
 
+        s = IIIF::Presentation::Resource.new('@context' => 'http://iiif.io/api/image/2/context.json', 'profile' => 'http://iiif.io/api/image/2/level2.json', '@id' => "http://libimages.princeton.edu/loris2/#{img_id}")
+
         i = IIIF::Presentation::ImageResource.new()
 
         i['@id'] = "http://libimages.princeton.edu/loris2/#{img_id}/full/#{img_width},#{img_height}/0/default.jpg"
         i.format = "image/jpeg"
         i.width = canvas.width
         i.height = canvas.height
+        i.service = s
 
         r = IIIF::Presentation::Resource.new('@type' => 'oa:Annotation', 'motivation' => 'sc:painting', '@id' => "#{canvas['@id']}/images", 'resource' => i)
 
@@ -97,7 +100,7 @@ class Metadatum < ActiveRecord::Base
         canvas.images << r
 
         m.sequences << canvas
-        puts m.to_json(pretty:true)
+        #puts m.to_json(pretty:true)
         self.manifest = m.to_json(pretty:false)
       end
 
