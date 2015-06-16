@@ -10,6 +10,10 @@ class MetadataController < ApplicationController
   # GET /metadata/1
   # GET /metadata/1.json
   def show
+    respond_to do |format|
+      format.html { render :show }
+      format.json { render :json => @metadatum.to_json( :only => [:manifest] ) }
+    end
   end
 
   # GET /metadata/new

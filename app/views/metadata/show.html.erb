@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<h1><%= @metadatum.title %></h1>
+
 <p>
   <strong>Mets:</strong>
   <%= @metadatum.mets[0..30].gsub(/\s\w+\s*$/,'...') %>

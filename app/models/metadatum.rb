@@ -72,7 +72,7 @@ class Metadatum < ActiveRecord::Base
         i_urn = '//mets:file[@ADMID="' + item_aid +'"]/mets:FLocat/@xlink:href'
 
         img_width = slop.xpath(iw, 'mets' => 'http://www.loc.gov/METS/').to_s
-        
+
         img_height = slop.xpath(ih, 'mets' => 'http://www.loc.gov/METS/').to_s
         img_id = mets_doc.xpath(i_urn, 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink').to_s.sub(/^urn:pudl:images:deliverable:/,'')
 
@@ -91,11 +91,13 @@ class Metadatum < ActiveRecord::Base
         i.width = canvas.width
         i.height = canvas.height
 
-        r = IIIF::Presentation::Resource.new('@type' => 'oa:Annotation', 'motivation' => 'sc:painting', '@id' => '#{canvas["@id"]}/images', 'resource' => i)
+        r = IIIF::Presentation::Resource.new('@type' => 'oa:Annotation', 'motivation' => 'sc:painting', '@id' => "#{canvas['@id']}/images", 'resource' => i)
+
 
         canvas.images << r
 
         m.sequences << canvas
+        puts m.to_json(pretty:true)
         self.manifest = m.to_json(pretty:false)
       end
 
