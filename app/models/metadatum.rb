@@ -35,10 +35,16 @@ class Metadatum < ActiveRecord::Base
       oid = "http://localhost:3000/metadata/#{self.objid}"
       seed = {
         '@id' => oid,
-        'label' => self.title
+        'label' => self.title,
+        'attribution' => "Provided by Princeton University"
       }
       # Any options you add are added to the object
       m = IIIF::Presentation::Manifest.new(seed)
+
+      # make a sequence
+      sequence = IIIF::Presentation::Sequence.new()
+      sequence['@id'] = "#{m['@id']}/seq/"
+      m.sequences << sequence
 
       mets_doc  = Nokogiri::XML(self.mets)
 
@@ -96,10 +102,9 @@ class Metadatum < ActiveRecord::Base
 
         r = IIIF::Presentation::Resource.new('@type' => 'oa:Annotation', 'motivation' => 'sc:painting', '@id' => "#{canvas['@id']}/images", 'resource' => i)
 
-
         canvas.images << r
 
-        m.sequences << canvas
+        m.sequences.first.canvases << canvas
         #puts m.to_json(pretty:true)
         self.manifest = m.to_json(pretty:false)
       end
