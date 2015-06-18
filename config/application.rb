@@ -27,5 +27,7 @@ module Spiiiffy
       'Access-Control-Allow-Origin' => '*',
       'Access-Control-Request-Method' => '*'
     })
+
+    config.assets.enabled = false
   end
 end

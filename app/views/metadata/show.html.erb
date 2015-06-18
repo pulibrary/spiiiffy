@@ -1,19 +1,38 @@
 <p id="notice"><%= notice %></p>
 
-<h1><%= @metadatum.title %></h1>
+<%= link_to '<<< Back to Resource Selection List', metadata_path %>
 
-<p>
-  <strong>Mets:</strong>
-  <%= @metadatum.mets[0..30].gsub(/\s\w+\s*$/,'...') %>
-</p>
+<div id="viewer"></div>
 
-<p>
+<script type="text/javascript">
 
-  <%= link_to "Manifest", {:format => :json } %>
-
-</p>
-
-
-
-<%= link_to 'Edit', edit_metadatum_path(@metadatum) %> |
-<%= link_to 'Back', metadata_path %>
+    $(function() {
+      Mirador({
+        "id": "viewer",
+        "layout": "1x1",
+        "data": [
+          { "manifestUri": "http://localhost:3000/metadata/<%= @metadatum.objid %>.json", "location": "Harvard University"}, // Harvard Scroll
+          { "manifestUri": "http://oculus-dev.harvardx.harvard.edu/manifests/drs:18259372", "location": "other"},
+          { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/BeineckeMS10", "location": "Yale University"}
+        ],
+        "logosLocation" : "/images/logos/",
+        "windowObjects": [
+          {
+        	"loadedManifest": "http://localhost:3000/metadata/<%= @metadatum.objid %>.json",
+        	"viewType" : "ImageView",
+        	"canvasID": "http://localhost:3000/metadata/<%= @metadatum.objid %>/canvas/1",
+        	//"bottomPanel" : false,
+          "layoutOptions": {
+            "close": false,
+            "slotRight": false,
+            "slotLeft": false,
+            "slotAbove": false,
+            "slotBelow": false
+          }
+        	//"availableViews" : ['ThumbnailsView', 'ImageView', 'BookView']
+        	//"overlay" : false
+          }
+        ]
+      });
+    });
+  </script>
