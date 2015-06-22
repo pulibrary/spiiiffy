@@ -1,27 +1,26 @@
+<div class="container">
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Metadata</h1>
+<h1>Transcribing the West</h1>
 
-<table>
-  <thead>
-    <tr>
-      <th>Titles</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @metadata.each do |metadatum| %>
-      <tr>
-        <td><%= metadatum.title %></td>
-        <td><%= link_to 'Show', metadatum %></td>
-        <td><%= link_to 'Edit', edit_metadatum_path(metadatum) %></td>
-        <td><%= link_to 'Destroy', metadatum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div class="row">
+  <% @metadata.each do |metadatum| %>
+  <div class="col-sm-6 col-md-4">
+      <div class="thumbnail">
+        <img src="..." alt="...">
+        <div class="caption">
+          <h3><%= metadatum.title %></h3>
+          <!--<p>...</p>-->
+          <p><%= link_to 'Show', metadatum, method: :get, class: 'btn btn-info' %> <%= link_to 'Edit', edit_metadatum_path(metadatum), method: :get, class: 'btn btn-warning' %> <%= link_to 'Destroy', metadatum, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></p>
+        </div>
+      </div>
+  </div>
+  <% end %>
+</div>
+
 
 <br>
 
-<%= link_to 'New Metadatum', new_metadatum_path %>
+<%= link_to 'Add New Resource', new_metadatum_path, method: :get, class: 'btn btn-default' %>
+</div>
