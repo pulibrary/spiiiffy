@@ -4,8 +4,8 @@ class Metadatum < ActiveRecord::Base
   validates :mets, presence: true
   validates_uniqueness_of :objid
 
-  before_create :set_title, :set_objid, :make_manifest
-  before_update :set_title, :set_objid, :make_manifest
+  before_create :set_attributes, :make_manifest
+  before_update :set_attributes, :make_manifest
 
   def to_param
     objid
@@ -17,17 +17,16 @@ class Metadatum < ActiveRecord::Base
   end
 
   private
-    def set_title
+    def set_attributes
       mets_doc  = Nokogiri::XML(self.mets)
       self.title = mets_doc.xpath('(//mods:titleInfo/mods:title/text())[1]', 'mods' => 'http://www.loc.gov/mods/v3')
       self.title.blank? ? "untitled" : self.title
-      # @mets_doc.xpath('(/mets:mets/@OBJID', 'mets' => 'http://www.loc.gov/METS/')
-    end
-
-  private
-    def set_objid
-      mets_doc  = Nokogiri::XML(self.mets)
       self.objid = mets_doc.xpath('string(//mets:mets/@OBJID)', 'mets' => 'http://www.loc.gov/METS/')
+      self.abstract = mets_doc.xpath('(//mods:abstract/text())[1]', 'mods' => 'http://www.loc.gov/mods/v3')
+      
+      thumb_id = mets_doc.xpath('//mets:fileSec/mets:fileGrp[@USE="thumbnail"]/mets:file/mets:FLocat/@xlink:href', 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink').to_s.sub(/^urn:pudl:images:deliverable:/,'')
+      self.thumbnail = "http://libimages.princeton.edu/loris2/#{thumb_id}/full/242,/0/default.jpg"
+
     end
 
   private

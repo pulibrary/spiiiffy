@@ -13,9 +13,9 @@
 
   <div class="field">
     <%= f.label :mets %><br>
-    <%= f.text_area :mets %>
+    <%= f.text_area :mets, class: 'md span12', id: 'textarea', rows: '20', placeholder: 'Paste METS here!' %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit 'Submit', class: 'btn btn-info' %>
   </div>
 <% end %>

@@ -8,10 +8,10 @@
   <% @metadata.each do |metadatum| %>
   <div class="col-sm-6 col-md-4">
       <div class="thumbnail">
-        <img src="..." alt="...">
+        <img src="<%= metadatum.thumbnail %>" alt="Thumbnail for <%= metadatum.title %>">
         <div class="caption">
           <h3><%= metadatum.title %></h3>
-          <!--<p>...</p>-->
+          <!--<p><%= metadatum.abstract %></p>-->
           <p><%= link_to 'Show', metadatum, method: :get, class: 'btn btn-info' %> <%= link_to 'Edit', edit_metadatum_path(metadatum), method: :get, class: 'btn btn-warning' %> <%= link_to 'Destroy', metadatum, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></p>
         </div>
       </div>
