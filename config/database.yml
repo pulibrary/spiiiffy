@@ -35,5 +35,5 @@ production:
   database: spiiiffy_production
   pool: 5
   username: root
-  password:
+  password: p$lB5Mer
   socket: /tmp/mysql.sock
