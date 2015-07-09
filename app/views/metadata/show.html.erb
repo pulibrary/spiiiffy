@@ -13,16 +13,16 @@
         "id": "viewer",
         "layout": "1x1",
         "data": [
-          { "manifestUri": "http://localhost:3000/metadata/<%= @metadatum.objid %>.json", "location": "Harvard University"}, // Harvard Scroll
+          { "manifestUri": "<%= @metadatum.objid %>.json", "location": "Harvard University"}, // Harvard Scroll
           { "manifestUri": "http://oculus-dev.harvardx.harvard.edu/manifests/drs:18259372", "location": "other"},
           { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/BeineckeMS10", "location": "Yale University"}
         ],
         "logosLocation" : "/images/logos/",
         "windowObjects": [
           {
-        	"loadedManifest": "http://localhost:3000/metadata/<%= @metadatum.objid %>.json",
+        	"loadedManifest": "<%= @metadatum.objid %>.json",
         	"viewType" : "ImageView",
-        	"canvasID": "http://localhost:3000/metadata/<%= @metadatum.objid %>/canvas/1",
+        	"canvasID": "<%= @metadatum.objid %>/canvas/1",
         	//"bottomPanel" : false,
           "layoutOptions": {
             "close": false,
