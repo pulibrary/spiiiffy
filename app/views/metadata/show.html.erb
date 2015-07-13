@@ -18,6 +18,15 @@
           { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/BeineckeMS10", "location": "Yale University"}
         ],
         "logosLocation" : "/images/logos/",
+        "annotationEndpoint" : {
+				 "name" : "Simple Annotation Store Endpoint",
+				 "module" : "SimpleASEndpoint",
+				 "options" : {
+					"url": "http://192.168.59.103:8888/annotation",
+				  "storeId" : "comparison",
+				  "APIKey" : "user_auth"
+				 }
+		    },
         "windowObjects": [
           {
         	"loadedManifest": "<%= @metadatum.objid %>.json",
@@ -40,3 +49,4 @@
   </script>
 
 <%= javascript_include_tag "/mirador.js" %>
+<%= javascript_include_tag "/simpleASEndpoint.js" %>
