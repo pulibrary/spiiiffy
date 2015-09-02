@@ -1,8 +1,6 @@
 <%= stylesheet_link_tag "/css/mirador-combined.css" %>
-<%= stylesheet_link_tag "/css/mirador-local.css" %>
+<%= stylesheet_link_tag "/css_local/mirador-local.css" %>
 <p id="notice"><%= notice %></p>
-
-<%= link_to '<<< Back to Resource Selection List', metadata_path %>
 
 <div id="viewer"></div>
 
@@ -13,11 +11,12 @@
         "id": "viewer",
         "layout": "1x1",
         "data": [
-          { "manifestUri": "<%= @metadatum.objid %>.json", "location": "Harvard University"}, // Harvard Scroll
-          { "manifestUri": "http://oculus-dev.harvardx.harvard.edu/manifests/drs:18259372", "location": "other"},
+          { "manifestUri": "<%= @metadatum.objid %>.json", "location": "other"}, // Harvard Scroll
+          { "manifestUri": "http://oculus-dev.harvardx.harvard.edu/manifests/drs:14033171", "location": "Harvard University"},
           { "manifestUri": "http://manifests.ydc2.yale.edu/manifest/BeineckeMS10", "location": "Yale University"}
         ],
         "logosLocation" : "/images/logos/",
+        "i18nPath" : "/locales/",
         "annotationEndpoint" : {
 				 "name" : "Simple Annotation Store Endpoint",
 				 "module" : "SimpleASEndpoint",
@@ -29,6 +28,7 @@
 		    },
         "windowObjects": [
           {
+          //"loadedManifest": "http://oculus-dev.harvardx.harvard.edu/manifests/drs:14033171",
         	"loadedManifest": "<%= @metadatum.objid %>.json",
         	"viewType" : "ImageView",
         	"canvasID": "<%= @metadatum.objid %>/canvas/1",

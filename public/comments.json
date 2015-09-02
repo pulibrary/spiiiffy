@@ -1,0 +1,6 @@
+{
+  "@context":"http://iiif.io/api/presentation/2/context.json",
+  "@id":"http://www.example.org/iiif/spiiify/layer/commentary",
+  "@type":"sc:Layer",
+  "label":"Commentary"
+}

@@ -1,7 +1,7 @@
 require 'iiif/presentation'
 class MetadataController < ApplicationController
   before_action :set_metadatum, only: [:show, :edit, :update, :destroy]
-
+  layout "mirador", only: :show
   # GET /metadata
   # GET /metadata.json
   def index
@@ -11,7 +11,6 @@ class MetadataController < ApplicationController
   # GET /metadata/1
   # GET /metadata/1.json
   def show
-
     respond_to do |format|
       format.html { render :show }
       format.json {

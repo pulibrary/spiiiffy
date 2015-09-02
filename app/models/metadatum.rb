@@ -23,7 +23,7 @@ class Metadatum < ActiveRecord::Base
       self.title.blank? ? "untitled" : self.title
       self.objid = mets_doc.xpath('string(//mets:mets/@OBJID)', 'mets' => 'http://www.loc.gov/METS/')
       self.abstract = mets_doc.xpath('(//mods:abstract/text())[1]', 'mods' => 'http://www.loc.gov/mods/v3')
-      
+
       thumb_id = mets_doc.xpath('//mets:fileSec/mets:fileGrp[@USE="thumbnail"]/mets:file/mets:FLocat/@xlink:href', 'mets' => 'http://www.loc.gov/METS/', 'xlink' => 'http://www.w3.org/1999/xlink').to_s.sub(/^urn:pudl:images:deliverable:/,'')
       self.thumbnail = "http://libimages.princeton.edu/loris2/#{thumb_id}/full/242,/0/default.jpg"
 
